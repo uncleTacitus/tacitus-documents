@@ -1,0 +1,390 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "hermes-agent",
+  "elements": [
+    {
+      "type": "rectangle", "id": "bg_frontend", "x": 0, "y": 0,
+      "width": 380, "height": 540,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#e7f5ff", "fillStyle": "solid",
+      "roughness": 0, "opacity": 50,
+      "strokeColor": "#1971c2", "strokeWidth": 1
+    },
+    {
+      "type": "text", "id": "zone_frontend", "x": 120, "y": 10,
+      "width": 140, "height": 25,
+      "text": "前端层 (React + TypeScript)", "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#1971c2", "originalText": "前端层 (React + TypeScript)",
+      "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "flow_canvas", "x": 20, "y": 50,
+      "width": 160, "height": 50,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#a5d8ff", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_flow_canvas", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_flow_canvas", "x": 30, "y": 58,
+      "width": 140, "height": 25,
+      "text": "FlowCanvas (ReactFlow\n拖拽编排)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "flow_canvas", "originalText": "FlowCanvas (ReactFlow\n拖拽编排)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "node_panel", "x": 200, "y": 50,
+      "width": 160, "height": 50,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#a5d8ff", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_node_panel", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_node_panel", "x": 210, "y": 58,
+      "width": 140, "height": 25,
+      "text": "NodePanel\n(LLM/TTS/Input/Output...)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "node_panel", "originalText": "NodePanel\n(LLM/TTS/Input/Output...)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "workflow_store", "x": 20, "y": 120,
+      "width": 160, "height": 50,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#d0bfff", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_workflow_store", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_workflow_store", "x": 30, "y": 128,
+      "width": 140, "height": 25,
+      "text": "workflowStore\n(Zustand 状态管理)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "workflow_store", "originalText": "workflowStore\n(Zustand 状态管理)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "websocket", "x": 200, "y": 120,
+      "width": 160, "height": 50,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#ffd8a8", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_websocket", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_websocket", "x": 210, "y": 128,
+      "width": 140, "height": 25,
+      "text": "WebSocket\n(实时执行状态推送)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "websocket", "originalText": "WebSocket\n(实时执行状态推送)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "debug_drawer", "x": 20, "y": 190,
+      "width": 340, "height": 40,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#fff3bf", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_debug_drawer", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_debug_drawer", "x": 30, "y": 195,
+      "width": 320, "height": 25,
+      "text": "DebugDrawer — 节点执行详情面板 (每个节点 running/success/failed)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "debug_drawer", "originalText": "DebugDrawer — 节点执行详情面板 (每个节点 running/success/failed)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "api_layer", "x": 20, "y": 260,
+      "width": 340, "height": 40,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#c3fae8", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_api_layer", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_api_layer", "x": 30, "y": 265,
+      "width": 320, "height": 25,
+      "text": "API 层 — workflow/skill/llmConfig/mcp… 8 个模块", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "api_layer", "originalText": "API 层 — workflow/skill/llmConfig/mcp… 8 个模块", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "bg_backend", "x": 420, "y": 0,
+      "width": 580, "height": 540,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#ebfbee", "fillStyle": "solid",
+      "roughness": 0, "opacity": 50,
+      "strokeColor": "#2b8a3e", "strokeWidth": 1
+    },
+    {
+      "type": "text", "id": "zone_backend", "x": 620, "y": 10,
+      "width": 180, "height": 25,
+      "text": "后端层 (Spring Boot 3.4 + Java 21)", "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#2b8a3e", "originalText": "后端层 (Spring Boot 3.4 + Java 21)",
+      "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "controller", "x": 440, "y": 50,
+      "width": 160, "height": 50,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#b2f2bb", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_controller", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_controller", "x": 450, "y": 58,
+      "width": 140, "height": 25,
+      "text": "Controller\n(REST API 入口)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "controller", "originalText": "Controller\n(REST API 入口)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "service", "x": 630, "y": 50,
+      "width": 160, "height": 50,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#b2f2bb", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_service", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_service", "x": 640, "y": 58,
+      "width": 140, "height": 25,
+      "text": "Service\n(业务逻辑层)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "service", "originalText": "Service\n(业务逻辑层)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "engine_router", "x": 440, "y": 130,
+      "width": 350, "height": 45,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#d0bfff", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_engine_router", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_engine_router", "x": 450, "y": 136,
+      "width": 330, "height": 25,
+      "text": "Engine Router — 根据工作流类型路由到 DAG / LangGraph", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "engine_router", "originalText": "Engine Router — 根据工作流类型路由到 DAG / LangGraph", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "dag_engine", "x": 440, "y": 200,
+      "width": 160, "height": 70,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#ffd8a8", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_dag_engine", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_dag_engine", "x": 450, "y": 210,
+      "width": 140, "height": 25,
+      "text": "DAG Engine\nDAG 依赖图解析\n拓扑排序+并行调度", "fontSize": 13, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "dag_engine", "originalText": "DAG Engine\nDAG 依赖图解析\n拓扑排序+并行调度", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "langgraph_engine", "x": 630, "y": 200,
+      "width": 160, "height": 70,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#ffd8a8", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_langgraph_engine", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_langgraph_engine", "x": 640, "y": 210,
+      "width": 140, "height": 25,
+      "text": "LangGraph Engine\nStateGraph 构建\n条件边+循环执行", "fontSize": 13, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "langgraph_engine", "originalText": "LangGraph Engine\nStateGraph 构建\n条件边+循环执行", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "executor_layer", "x": 440, "y": 300,
+      "width": 350, "height": 45,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#a5d8ff", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_executor_layer", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_executor_layer", "x": 450, "y": 306,
+      "width": 330, "height": 25,
+      "text": "NodeExecutor 层 — LLM/TTS/Input/Output/Search 各节点执行器", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "executor_layer", "originalText": "NodeExecutor 层 — LLM/TTS/Input/Output/Search 各节点执行器", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "skill_layer", "x": 440, "y": 370,
+      "width": 160, "height": 45,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#fff3bf", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_skill_layer", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_skill_layer", "x": 450, "y": 376,
+      "width": 140, "height": 25,
+      "text": "Skill 注册中心\n(工具/技能管理)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "skill_layer", "originalText": "Skill 注册中心\n(工具/技能管理)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "llm_layer", "x": 630, "y": 370,
+      "width": 160, "height": 45,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#ffc9c9", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_llm_layer", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_llm_layer", "x": 640, "y": 376,
+      "width": 140, "height": 25,
+      "text": "LLM 适配器层\n(多 Provider 接入)", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "llm_layer", "originalText": "LLM 适配器层\n(多 Provider 接入)", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "agent_layer", "x": 440, "y": 440,
+      "width": 350, "height": 45,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#d0bfff", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_agent_layer", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_agent_layer", "x": 450, "y": 446,
+      "width": 330, "height": 25,
+      "text": "Agent 层 — ReAct Agent / ToolAgent / 智能编排策略", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "agent_layer", "originalText": "Agent 层 — ReAct Agent / ToolAgent / 智能编排策略", "autoResize": true
+    },
+
+    {
+      "type": "rectangle", "id": "mcp_layer", "x": 440, "y": 505,
+      "width": 350, "height": 30,
+      "roundness": { "type": 3 },
+      "backgroundColor": "#c3fae8", "fillStyle": "solid",
+      "boundElements": [{ "id": "t_mcp_layer", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_mcp_layer", "x": 450, "y": 506,
+      "width": 330, "height": 25,
+      "text": "MCP Server 集成 + 知识库 (RAG) + 存储 (MySQL/Redis)", "fontSize": 13, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "mcp_layer", "originalText": "MCP Server 集成 + 知识库 (RAG) + 存储 (MySQL/Redis)", "autoResize": true
+    },
+
+    {
+      "type": "arrow", "id": "a_front_to_api", "x": 360, "y": 280, "width": 80, "height": 0,
+      "points": [[0,0],[80,0]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "api_layer", "fixedPoint": [1, 0.5] },
+      "endBinding": { "elementId": "controller", "fixedPoint": [0, 0.5] },
+      "boundElements": [{ "id": "t_a_front_to_api", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_a_front_to_api", "x": 380, "y": 270,
+      "width": 60, "height": 20,
+      "text": "HTTP", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#1e1e1e", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "a_front_to_api", "originalText": "HTTP", "autoResize": true
+    },
+
+    {
+      "type": "arrow", "id": "a_ws", "x": 280, "y": 170, "width": 162, "height": 92,
+      "points": [[0,0],[60,0],[60,92],[162,92]],
+      "endArrowhead": "arrow",
+      "strokeStyle": "dashed",
+      "startBinding": { "elementId": "websocket", "fixedPoint": [0.5, 1] },
+      "endBinding": { "elementId": "executor_layer", "fixedPoint": [0.5, 0] },
+      "boundElements": [{ "id": "t_a_ws", "type": "text" }]
+    },
+    {
+      "type": "text", "id": "t_a_ws", "x": 380, "y": 255,
+      "width": 60, "height": 20,
+      "text": "WS", "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#868e96", "textAlign": "center", "verticalAlign": "middle",
+      "containerId": "a_ws", "originalText": "WS", "autoResize": true
+    },
+
+    {
+      "type": "arrow", "id": "a_ctrl_to_svc", "x": 600, "y": 75, "width": 30, "height": 0,
+      "points": [[0,0],[30,0]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "controller", "fixedPoint": [1, 0.5] },
+      "endBinding": { "elementId": "service", "fixedPoint": [0, 0.5] }
+    },
+
+    {
+      "type": "arrow", "id": "a_svc_to_router", "x": 710, "y": 100, "width": 0, "height": 30,
+      "points": [[0,0],[0,30]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "service", "fixedPoint": [0.5, 1] },
+      "endBinding": { "elementId": "engine_router", "fixedPoint": [0.5, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_router_to_dag", "x": 500, "y": 175, "width": 0, "height": 25,
+      "points": [[0,0],[0,25]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "engine_router", "fixedPoint": [0.25, 1] },
+      "endBinding": { "elementId": "dag_engine", "fixedPoint": [0.25, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_router_to_lg", "x": 690, "y": 175, "width": 0, "height": 25,
+      "points": [[0,0],[0,25]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "engine_router", "fixedPoint": [0.7, 1] },
+      "endBinding": { "elementId": "langgraph_engine", "fixedPoint": [0.7, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_dag_to_exec", "x": 520, "y": 270, "width": 0, "height": 30,
+      "points": [[0,0],[0,30]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "dag_engine", "fixedPoint": [0.5, 1] },
+      "endBinding": { "elementId": "executor_layer", "fixedPoint": [0.23, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_lg_to_exec", "x": 710, "y": 270, "width": 0, "height": 30,
+      "points": [[0,0],[0,30]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "langgraph_engine", "fixedPoint": [0.5, 1] },
+      "endBinding": { "elementId": "executor_layer", "fixedPoint": [0.77, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_exec_to_skill", "x": 480, "y": 345, "width": 0, "height": 25,
+      "points": [[0,0],[0,25]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "executor_layer", "fixedPoint": [0.12, 1] },
+      "endBinding": { "elementId": "skill_layer", "fixedPoint": [0.25, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_exec_to_llm", "x": 700, "y": 345, "width": 0, "height": 25,
+      "points": [[0,0],[0,25]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "executor_layer", "fixedPoint": [0.74, 1] },
+      "endBinding": { "elementId": "llm_layer", "fixedPoint": [0.44, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_skill_to_agent", "x": 520, "y": 415, "width": 0, "height": 25,
+      "points": [[0,0],[0,25]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "skill_layer", "fixedPoint": [0.5, 1] },
+      "endBinding": { "elementId": "agent_layer", "fixedPoint": [0.23, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_llm_to_agent", "x": 700, "y": 415, "width": 0, "height": 25,
+      "points": [[0,0],[0,25]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "llm_layer", "fixedPoint": [0.5, 1] },
+      "endBinding": { "elementId": "agent_layer", "fixedPoint": [0.77, 0] }
+    },
+
+    {
+      "type": "arrow", "id": "a_agent_to_mcp", "x": 615, "y": 485, "width": 0, "height": 20,
+      "points": [[0,0],[0,20]], "endArrowhead": "arrow",
+      "startBinding": { "elementId": "agent_layer", "fixedPoint": [0.5, 1] },
+      "endBinding": { "elementId": "mcp_layer", "fixedPoint": [0.5, 0] }
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff"
+  }
+}
