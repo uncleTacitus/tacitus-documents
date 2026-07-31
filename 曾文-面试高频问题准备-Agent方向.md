@@ -348,7 +348,39 @@ for 循环 + LLM 调用 + JSON 决策解析 + finish_reason 判断，默认最�
 
 ---
 
-## 三、通用基础
+## 四、通用基础
+
+### B1：你平时怎么用 Agent CLI 做开发？有什么心得？
+
+**一句话定位：**
+我把 PaiCLI 当作"有明确边界的协作者"：先写文档对齐需求，再用 Agent 做实现，最后靠测试和审查守住质量。
+
+**口述答案（90-120 秒）：**
+> "我日常用 PaiCLI 辅助开发，核心是'文档为先、人机协作、测试兜底'。
+>
+> 具体流程分六步：
+> 1. **文档为先**：任何改动前先在项目里维护 `AGENTS.md` 和 `PRD.md`，把背景、约束、验收标准写清楚。这既是给 Agent 看的上下文，也是给人看的决策留痕。
+> 2. **需求澄清 + 影响面评估**：改之前我会让 Agent 帮我review需求，问自己三个问题：会不会影响现有功能？有没有安全/权限风险？会不会破坏已有的测试或接口契约？
+> 3. **写 PRD，对齐需求文档**：把需求拆成可验收的任务，输出 PRD。PRD 和 AGENTS.md 互相校验，避免跑偏。
+> 4. **拆 issue 到 Plane**：把 PRD 里的任务拆成 Plane 上的具体 issue，作为开发追踪单元。
+> 5. **Agent 工作流开发**：按 Plane issue 让 PaiCLI 做代码实现。过程中我会指定使用对应的 skill 和 MCP 工具，比如用 `read_file`/`grep` 先读代码，用 `write_file` 改代码，用 `bash` 跑测试。
+> 6. **红绿灯测试 + 回归审查**：先跑原有测试确认没坏（绿灯保持），再写新功能测试让它变绿。最后 diff 检查代码是否符合 PRD，必要时回滚快照。
+>
+> 心得就三点：
+> - Agent 最擅长'边界清晰的实现'，不擅长'拍板架构'。
+> - 文档不是写完就丢，是开发前对齐、开发中对标、开发后审查的基准。
+> - 安全阀永远在人手里：高危操作走 HITL 审批，改坏代码用 snapshot 回滚。"
+
+**面试金句：**
+> "我把 Agent 当作实习生：给它清晰的上下文和验收标准，它能把代码写得很快；但上线前的判断权和责任必须在我。"
+
+**可能追问：**
+- Agent 改坏了代码怎么办？答：PaiCLI 每次运行有 pre-turn/post-turn 快照，可以直接 `/restore` 回滚；另外我会先 commit 或 stash 再让 Agent 动手。
+- 怎么保证 Agent 不改飞？答：先写 PRD/AGENTS.md 定约束，开发中限制可用工具，开发后跑测试 + diff 审查。
+- 什么任务适合 Agent，什么不适合？答：适合边界清晰、可测试、重复性高的任务，比如补接口、写测试、改字段；不适合安全敏感、需要跨系统权衡的架构决策。
+- 你用了哪些 skill 和 MCP？答：根据项目用对应的 skill（比如某个框架的 SKILL.md），MCP 主要是代码搜索、文档检索、测试运行类工具。
+
+---
 
 ### G4：MCP vs Function Calling 的区别？
 
@@ -541,9 +573,202 @@ ReAct 是"边想边做"，每步根据观察调整；Plan-and-Execute 是"先计
 
 ---
 
-## 六、待补充内容
+## 六、PaiAgent 补充题目
 
-以下题目后续演练后补充：
-- 线索状态机 11 位标记设计（大宅门）
-- PaiCLI-Python 的 MCP / RAG / Memory 细节
-- PaiSmart 的 RAG Chunk 策略和 Embedding 选型
+### A3：PaiAgent 的 Skill 技能系统是怎么设计的？
+
+**一句话定位：**
+Skill 是三层级加载：summary 用于 LLM 选择，detail 用于规则约束，reference 用于深度执行，核心目标是省 token、易扩展。
+
+**口述答案（90 秒）：**
+> "PaiAgent 的 Skill 系统分三层。
+>
+> 第一层 **summary**：存在 `skills/summary.json`，只有 name、description、tags。LLM 做 Skill 选择时只看这一层，轻量省 token。
+>
+> 第二层 **detail**：匹配到 Skill 后读取 `skills/{name}/SKILL.md`，里面是具体规则、输入输出、示例。SKILL.md 内容会拼进 system prompt，约束 LLM 的行为。
+>
+> 第三层 **reference**：执行过程中如果需要更深层知识，比如某个框架的 API 细节，就动态读取 `skills/{name}/reference/` 下的文档，按需加载。
+>
+> 这种设计解决了直接把所有技能文档塞进 prompt 导致 context 爆炸的问题。调用链是：`LoadSkillSummaryTool` 列出可选技能 → LLM 选择 → `LoadSkillDetailTool` 读取 SKILL.md → 按规则执行 → 必要时读 reference 文档。"
+
+**面试金句：**
+> "Skill 不是越大越好，而是按需分层加载——选的时候只看摘要，用的时候才读规则，深度执行才读参考文档。"
+
+**可能追问：**
+- Skill 怎么注册？答：放到 `skills/` 目录并按规范写 summary.json 和 SKILL.md，启动时自动扫描。
+- 如果两个 Skill 描述相似怎么办？答：靠 tags 和更精确的 description 区分，必要时在 summary 层加示例。
+- Skill 和 Tool 的区别？答：Tool 是原子能力，Skill 是更高层的任务模板，Skill 执行时内部可以组合多个 Tool。
+
+---
+
+### A4：PaiAgent 怎么支持多 LLM 提供商？
+
+**一句话定位：**
+`ChatClientFactory` 把 OpenAI 兼容、APIFree、Volcengine 等不同 SDK 的差异封装成统一的 `createClient()` 接口。
+
+**口述答案（90 秒）：**
+> "PaiAgent 的多 LLM 支持靠 `ChatClientFactory`。项目中既有 OpenAI 兼容接口，也有火山引擎的 agent_plan 专用接口，底层 SDK 不一样，调用方式也不同。
+>
+> `ChatClientFactory` 根据配置里的 provider 和 model，创建对应的 client 实例。对普通对话模型，走 OpenAI-compatible 统一接口；对火山引擎的 agent_plan 这种需要特殊调用方式的模型，单独封装 `VolcengineAgentPlanClient`。
+>
+> 上层业务只依赖 `ChatClientFactory.createClient()`，不需要关心具体是哪家 provider。这样加新 provider 时，只需要在 factory 里加一个 case，业务代码不用改。"
+
+**面试金句：**
+> "多 LLM 集成的关键是把'调用差异'收敛到工厂层，上层只关心模型能力，不关心 SDK 细节。"
+
+**可能追问：**
+- 切换 provider 需要改哪些代码？答：理论上只改配置；factory 会根据 provider 路由到对应实现。
+- 不同模型的 token 限制、 pricing 怎么管？答：可以在 nodeData 里配 max_tokens、temperature 等参数，factory 透传给底层 client。
+- 如果某个 provider 挂了怎么办？答：可以扩展 fallback 机制，配置主备模型，factory 按优先级重试。
+
+---
+
+## 七、PaiCLI-Python 补充题目
+
+### C1：PaiCLI-Python 的 ReAct Loop 是怎么实现的？
+
+**一句话定位：**
+while 循环 + LLM tools 参数 + tool_calls 解析 + 结果回写 messages，直到 LLM 不再要求调用工具或达到 max_steps。
+
+**口述答案（60 秒）：**
+> "PaiCLI 的 ReAct 实现和 PaiAgent 思路一致，是一个 while 循环。
+>
+> 每轮把当前 messages 和已注册工具的 schemas 一起传给 LLM。LLM 返回的 response 里如果有 tool_calls，就按 name 找到对应工具函数执行，把执行结果按 OpenAI 格式组装成 role='tool' 的 message，追加回 messages。
+>
+> 循环结束条件有两个：一是 LLM 不再返回 tool_calls，直接给出最终答案；二是达到 max_steps 上限，强制退出。"
+
+**面试金句：**
+> "ReAct 不是一次推理，而是'思考 → 行动 → 观察 → 再思考'的闭环。"
+
+---
+
+### C3：PaiCLI-Python 的 MCP Client 是怎么工作的？
+
+**一句话定位：**
+支持 stdio 和 Streamable HTTP 两种传输，连接 MCP Server 后把外部工具转换为内部统一格式，供 LLM 调用。
+
+**口述答案（60 秒）：**
+> "PaiCLI 的 MCP Client 支持两种传输方式：stdio 适合本地工具进程，比如文件系统、数据库查询工具；Streamable HTTP 适合远程服务，比如企业内部 API 或第三方搜索服务。
+>
+> 启动时 `McpClientManager` 根据配置连接 MCP Server，拉取它提供的 tools 列表，转成内部工具格式注册到 ToolRegistry。运行时这些工具和普通内置工具一起传给 LLM，LLM 决定调哪个。
+>
+> 另外 PaiCLI 自身也可以作为 MCP Server 暴露内置工具，实现双向集成。"
+
+**面试金句：**
+> "MCP 让 PaiCLI 的能力边界从'内置工具'扩展到'整个 MCP 生态'。"
+
+---
+
+### C6：PaiCLI-Python 的 RAG 代码索引是怎么做的？
+
+**一句话定位：**
+轻量代码 RAG：按文件行做 chunk，存 SQLite，查询用关键词 LIKE 匹配，适合代码检索对精确性要求高的场景。
+
+**口述答案（60 秒）：**
+> "PaiCLI 里的 CodeIndex 是一个简化版 RAG。它扫描项目代码文件，把每一非空行作为一个 chunk，连同文件路径一起存到 SQLite。
+>
+> 用户查询时，先把查询词拆成关键词，到 SQLite 里做 LIKE 模糊匹配，召回相关代码行，再按文件聚合返回给 LLM。
+>
+> 这个方案没有走向量 Embedding，因为代码检索对精确关键词更敏感，而且本地部署轻量。它体现了 RAG 的核心思想：先检索再生成，只是检索方式根据场景选了关键词匹配。"
+
+**面试金句：**
+> "RAG 的核心是'检索增强生成'，检索方式不一定是向量，关键词、BM25、图检索都可以。"
+
+---
+
+## 八、通用基础补充题目
+
+### G7：多 Agent 协作有哪些模式？
+
+**一句话定位：**
+常见三种：顺序接力、主从分配、圆桌讨论；核心是任务拆分、状态共享、冲突解决。
+
+**口述答案（90 秒）：**
+> "多 Agent 协作我了解三种典型模式。
+>
+> 第一种是 **顺序接力**：Agent A 做完把结果传给 Agent B，像流水线。适合任务步骤清晰、前后依赖强的场景，比如'先写 PRD，再写代码，再写测试'。
+>
+> 第二种是 **主从分配**：一个 Manager Agent 负责拆解任务、分配子任务、汇总结果，多个 Worker Agent 并行执行。适合可以拆成独立子任务的场景，比如同时检索多个数据源。
+>
+> 第三种是 **圆桌讨论**：多个 Agent 各自扮演不同角色，比如架构师、测试、安全审核，围绕同一个方案反复讨论迭代。适合复杂决策。
+>
+> 多 Agent 的关键难点是状态共享和冲突解决。PaiCLI 用 SQLite 长期记忆和 snapshot 做状态持久化，PaiAgent 用 DAG/LangGraph 做执行层面的状态同步。"
+
+**面试金句：**
+> "多 Agent 不是堆数量，而是把任务拆清楚、把状态管明白、把冲突有规则地解决。"
+
+---
+
+### G8：Agent 系统怎么评估？
+
+**一句话定位：**
+分任务完成度、工具调用正确性、输出质量、成本效率四个维度，核心看是否真正完成用户目标。
+
+**口述答案（90 秒）：**
+> "Agent 评估不能只看 LLM 输出是不是通顺，要看任务完成度。
+>
+> 我把它分成四个维度：
+> 1. **任务完成度**：最终答案是否解决了用户问题，比如代码是否跑通、查询是否返回正确数据。
+> 2. **工具调用正确性**：调用的工具是否选对、参数是否合法、是否避免重复调用。
+> 3. **输出质量**：回答是否简洁、是否有幻觉、是否引用可靠来源。
+> 4. **成本效率**：用了多少 token、多少轮交互、响应时间是多少。
+>
+> 具体做法：准备固定测试集，覆盖正常路径和边界情况；跑多次看成功率和平均步数；对失败 case 做分类，是工具描述不清、还是 LLM 理解错了、还是执行环境的问题。
+>
+> 在 PaiAgent 里可以通过 DebugDrawer 看每步执行结果；在 PaiCLI 里可以检查 snapshot 和审计日志。"
+
+**面试金句：**
+> "评估 Agent 不是评估 LLM，是评估一个能自主调用工具完成任务的系统。"
+
+---
+
+## 九、综合问题
+
+### R1：你为什么离开上一家公司？
+
+**一句话定位：**
+前一份工作偏销售和运营，技术成长空间有限，想回到技术方向并深耕 AI Agent。
+
+**口述答案（30 秒）：**
+> "前一份工作让我对业务运营有了很深的理解，但我更想回到技术方向，尤其是 AI Agent。现在的工作偏销售和运营，技术成长空间有限。我希望找到一家能长期做技术、有 AI 落地场景的公司。"
+
+---
+
+### R2：你有什么想问我们的？
+
+**准备 3 个问题：**
+1. 你们团队目前 Agent 落地到什么阶段？主要在哪些业务场景？
+2. 如果我来，主要负责哪块？是新的 Agent 应用开发还是现有系统的 AI 化改造？
+3. 团队的技术栈偏 Python 还是 Java？对 Agent 框架选型有什么倾向？
+
+---
+
+### R3：简历上那些红色技能（Seata/Dubbo/ELK 等）被问到怎么答？
+
+| 被问到 | 话术 |
+|--------|------|
+| Seata / 分布式事务 | "这个我学过原理，了解 AT 模式的前后镜像和自动回滚，但没有在生产环境深度用过。我目前主要做的业务一致性方案是大宅门里的 5 分钟主动对账。" |
+| Dubbo / ZooKeeper | "Dubbo 是 RPC 框架 + ZooKeeper 做服务注册与协调，我理解原理。我实际项目中用的是 Spring Cloud + Nacos。" |
+| RocketMQ | "RocketMQ 我看过文档了解特性，比如延迟消息、顺序消息。真实使用中我用的是 RabbitMQ 和 Kafka。" |
+| QPS 3000+ / ELK | "QPS 3000+ 是我对多级缓存方案的理论估算（Caffeine+Redis），没有在生产环境真实压测。ELK 我学过原理，没有深度用过。" |
+| Spring Cloud Gateway / Nacos | "我学习和实践过 Spring Cloud Gateway 的过滤器链和 Nacos 的服务注册发现，了解核心概念，但没有大规模生产运维经验。" |
+
+**核心策略：**
+> 不主动提，不回避问；先讲清楚概念，立刻把话题拉回自己真实做过的方案（大宅门对账、FastAPI 权限、PaiAgent 工具系统）。
+
+---
+
+## 十、完整背诵索引
+
+按优先级背诵：
+1. **自我介绍**（2 分钟）
+2. **PaiAgent 双引擎**（Q1，60 秒）
+3. **Bug 6545e5**（Q2，90 秒）
+4. **数据图表直查**（Q3，90 秒）
+5. **大宅门状态机/权限/支付**（Q10-Q12，各 60 秒）
+6. **ReAct / Plan-and-Execute**（Q4 / C1，60 秒）
+7. **RAG 全流程**（G5，90 秒）
+8. **MCP vs Function Calling**（G4，90 秒）
+9. **工具注册**（Q7 / G1，90 秒）
+10. **Skill / 多 LLM / 记忆**（A3 / A4 / G6，各 60 秒）
+11. **综合问题**（R1-R3）
