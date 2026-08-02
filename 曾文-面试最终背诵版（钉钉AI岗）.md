@@ -244,11 +244,11 @@
 
 ## 四、通用技术问题（P1-P2）
 ### 你平时怎么用 Agent CLI 做开发？有什么心得？
-> 一句话定位： 我把 PaiCLI 当作"有明确边界的协作者"：先写文档对齐需求，再用 Agent 做实现，最后靠测试和审查守住质量。
+> 一句话定位： 我把 Kimi CLI 当作"有明确边界的协作者"：先写文档对齐需求，再用 Agent 做实现，最后靠测试和审查守住质量。
 > 
 > 口述答案（90-120 秒）：
 > 
-> "我日常用 PaiCLI 辅助开发，核心是'文档为先、人机协作、测试兜底'。
+> "我日常用 Kimi CLI 辅助开发，核心是'文档为先、人机协作、测试兜底'。
 > 
 > 具体流程分六步：
 > 
@@ -260,7 +260,7 @@
 > 
 > 拆 issue 到 Plane：把 PRD 里的任务拆成 Plane 上的具体 issue，作为开发追踪单元。
 > 
-> Agent 工作流开发：按 Plane issue 让 PaiCLI 做代码实现。过程中我会指定使用对应的 skill 和 MCP 工具，比如用 read_file/grep 先读代码，用 write_file 改代码，用 bash 跑测试。
+> Agent 工作流开发：按 Plane issue 让 Kimi CLI 做代码实现。过程中我会指定使用对应的 skill 和 MCP 工具，比如用 read_file/grep 先读代码，用 write_file 改代码，用 bash 跑测试。
 > 
 > 红绿灯测试 + 回归审查：先跑原有测试确认没坏（绿灯保持），再写新功能测试让它变绿。最后 diff 检查代码是否符合 PRD，必要时回滚快照。
 
@@ -278,7 +278,7 @@
 
 > 可能追问：
 > 
-> Agent 改坏了代码怎么办？答：PaiCLI 每次运行有 pre-turn/post-turn 快照，可以直接 /restore 回滚；另外我会先 commit 或 stash 再让 Agent 动手。
+> Agent 改坏了代码怎么办？答：Agent CLI 每次运行有 pre-turn/post-turn 快照，可以直接 /restore 回滚；另外我会先 commit 或 stash 再让 Agent 动手。
 > 
 > 怎么保证 Agent 不改飞？答：先写 PRD/AGENTS.md 定约束，开发中限制可用工具，开发后跑测试 + diff 审查。
 > 
